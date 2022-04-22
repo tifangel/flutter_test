@@ -4,6 +4,7 @@ import 'package:myflutterapp/providers/user_operations.dart';
 import 'package:myflutterapp/screens/login/components/validatorGreeting.dart';
 import 'package:myflutterapp/utility/validator.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'components/input_field.dart';
 
@@ -73,10 +74,16 @@ class _LoginPageState extends State<LoginPage> {
                           txtUserEmailController.text.isEmpty ||
                           txtUserPwdController.text.isEmpty
                       ? null
-                      : () {
-                          Provider.of<UserOperation>(context, listen: false)
-                              .signIn(txtUserEmailController.text,
-                                  txtUserPwdController.text);
+                      : () async {
+                          // Provider.of<UserOperation>(context, listen: false)
+                          //     .signIn(txtUserEmailController.text,
+                          //         txtUserPwdController.text);
+                          final SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          prefs.setString('email', txtUserEmailController.text);
+
+                          print(txtUserEmailController.text);
+                          print(txtUserPwdController.text);
                           Navigator.pushReplacementNamed(context, '/home');
                         },
                   child: const Text(
