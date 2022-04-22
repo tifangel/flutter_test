@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myflutterapp/utility/constants.dart';
-import 'package:myflutterapp/providers/user_operations.dart';
 import 'package:myflutterapp/screens/login/components/validatorGreeting.dart';
 import 'package:myflutterapp/utility/validator.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'components/input_field.dart';
@@ -21,6 +19,19 @@ class _LoginPageState extends State<LoginPage> {
 
   bool isErrorEmail = false;
   bool isErrorPwd = false;
+
+  bool isLoading = false;
+
+  void handleLogin() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('email', txtUserEmailController.text);
+
+    Navigator.pushReplacementNamed(context, '/home');
+
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,28 +83,27 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: isErrorEmail ||
                           isErrorPwd ||
                           txtUserEmailController.text.isEmpty ||
-                          txtUserPwdController.text.isEmpty
+                          txtUserPwdController.text.isEmpty ||
+                          isLoading
                       ? null
-                      : () async {
-                          // Provider.of<UserOperation>(context, listen: false)
-                          //     .signIn(txtUserEmailController.text,
-                          //         txtUserPwdController.text);
-                          final SharedPreferences prefs =
-                              await SharedPreferences.getInstance();
-                          prefs.setString('email', txtUserEmailController.text);
-
-                          print(txtUserEmailController.text);
-                          print(txtUserPwdController.text);
-                          Navigator.pushReplacementNamed(context, '/home');
+                      : () {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          var future = new Future.delayed(
+                              const Duration(milliseconds: 3000), handleLogin);
                         },
-                  child: const Text(
-                    "Submit",
-                    style: TextStyle(color: bgColor, fontSize: 18),
-                  ),
+                  child: isLoading
+                      ? CircularProgressIndicator()
+                      : Text(
+                          "Submit",
+                          style: TextStyle(color: bgColor, fontSize: 18),
+                        ),
                   style: isErrorEmail ||
                           isErrorPwd ||
                           txtUserEmailController.text.isEmpty ||
-                          txtUserPwdController.text.isEmpty
+                          txtUserPwdController.text.isEmpty ||
+                          isLoading
                       ? TextButton.styleFrom(
                           backgroundColor: secondaryColor,
                           padding: EdgeInsets.symmetric(vertical: 20),

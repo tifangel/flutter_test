@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myflutterapp/providers/user_operations.dart';
 import 'package:myflutterapp/theme.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'screens/login/screen.dart';
@@ -41,30 +39,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    // return MultiProvider(
-    //     providers: [
-    //       ChangeNotifierProvider(create: (context) => UserOperation()),
-    //     ],
-    //     builder: (context, child) {
-    //       var u = Provider.of<UserOperation>(context);
-
-    //       print(u.getUser.email);
-    //       print(u.getUser.password);
-
-    //       return MaterialApp(
-    //         title: 'Food App',
-    //         theme: buildThemeData(),
-    //         debugShowCheckedModeBanner: false,
-    //         home: (u.getUser.email.isEmpty && u.getUser.password.isEmpty) ||
-    //                 !isLoggedIn
-    //             ? LoginPage()
-    //             : MainScreen(),
-    //         routes: {
-    //           '/login': (context) => LoginPage(),
-    //           '/home': (context) => MainScreen()
-    //         },
-    //       );
-    //     });
     return MaterialApp(
       title: 'Food App',
       theme: buildThemeData(),

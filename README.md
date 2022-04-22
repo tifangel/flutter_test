@@ -1,5 +1,5 @@
 ## Library yang digunakan
-- [Provider](https://pub.dev/packages/provider) - Modul untuk app state management
+- [Shared Preferences](https://pub.dev/packages/shared_preferences) - Modul untuk persistent storage
 - [http](https://pub.dev/packages/http) - untuk fetch data dari API
 
 ## Screenshots
